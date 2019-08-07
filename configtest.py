@@ -154,12 +154,21 @@ if __name__ == '__main__':
 	connection.search(search_base=conf.ad_search_base, 
 	search_filter='(objectClass=group)', search_scope=SUBTREE, attributes = ['cn', 'distinguishedName', 'mail','member'])
 
+	ad_address_list = []
 	for entries in connection.entries:
-		print (entries.cn)
+		ad_address_list.append(entries.mail)
 		
-		
-	out = check_output(conf.zmprov, 'gadl')
-	print (out)
+	out = check_output([conf.zmprov, 'gadl'])
+	# список групп рассылки из zimbra
+	zimbra_address_list = str(out, 'utf-8').splitlines()
+	
+	
+	
+	
+	
+	
+	
+	print (out.split('\\n'))
 	
 
 	
