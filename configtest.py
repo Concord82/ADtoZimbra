@@ -2,7 +2,9 @@
 ## -*- coding: utf-8 -*-
 import os, sys
 import logging, logging.config, logging.handlers
-import configparser
+#import configparser
+import subprocess
+from subprocess import check_output
 from  ldap3 import Server, Connection, NTLM, SUBTREE
 from ldap3.core.exceptions import LDAPException, LDAPBindError, LDAPSocketOpenError
 
@@ -18,6 +20,7 @@ class Config:
 	ad_user = ''
 	ad_password = ''
 	ad_search_base = ''
+	zmprov = ''
 	log_path = ''
 	log_level = ''
 	
@@ -42,6 +45,8 @@ class Config:
 		self.ad_user = config.get('AD', 'user')
 		self.ad_password = config.get('AD', 'password')
 		self.ad_search_base = config.get('AD', 'search_base')
+		
+		self.zmprov = config.get("MAIN", "zmprov")
 		self.log_path = config.get('MAIN', 'logdir')
 		self.log_level = config.get('MAIN', 'loglevel')
 		
@@ -67,6 +72,7 @@ class Config:
 		config.set("AD", "search_base", "OU=internet,OU=Resources_and_Services,DC=cons,DC=tsk,DC=ru")
 		
 		config.add_section("MAIN")
+		config.set("MAIN", "zmprov", "/opt/zimbra/bin/zmprov")
 		config.set("MAIN", "logdir", "/home/lviv/project")
 		config.set("MAIN", "loglevel", "loglevel")
 		
@@ -150,6 +156,11 @@ if __name__ == '__main__':
 
 	for entries in connection.entries:
 		print (entries.cn)
+		
+		
+	out = check_output(conf.zmprov, 'gadl')
+	print (out)
+	
 
 	
 	
