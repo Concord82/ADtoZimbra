@@ -3,6 +3,8 @@
 
 import os, sys
 import logging, logging.config
+import configparser
+
 try:
     import configparser
 except ImportError:
