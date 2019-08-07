@@ -10,9 +10,9 @@
 
 `yum install epel-release`
 
-Устанавливаем Python 3ей версии и необходимые компоненты
+Устанавливаем git, Python 3ей версии и необходимые компоненты
 
-`yum install -y python36 python36-devel python36-setuptools`
+`yum install -y git python36 python36-devel python36-setuptools`
 
 Устанавливаем pip
 

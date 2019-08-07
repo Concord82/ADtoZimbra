@@ -122,6 +122,16 @@ def main():
 
 if __name__ == '__main__':
 	conf = Config()
+	
+	
+	if not os.path.exists(conf.log_path) or not os.path.isdir(conf.log_path):
+		print ('не существует каталог для лог файлов. Проверьте файл конфигурации')
+		sys.exit(1)
+	if not os.access(conf.log_path, os.W_OK):
+		print ('каталог для лог файл недоступен для записи. Проверьте права пользователя ')
+		print ('от имени которого запускается скрипт на возможность записи в указанный каталог ')
+		sys.exit(1)
+	
 	logger = main()
 	server = Server(conf.ad_server, conf.ad_port, conf.ad_tls)
 	try:
