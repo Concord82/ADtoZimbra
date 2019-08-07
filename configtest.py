@@ -216,7 +216,10 @@ if __name__ == '__main__':
 		if not ad_addres_item in zimbra_address_list:
 			logger.info('Список рассылки %s не найден', ad_addres_item)
 			logger.info('выполняем добавление')
-			out = check_output([conf.zmprov, ])
+			
+			out = check_output([conf.zmprov, 'cdl', ad_addres_item])
+			print(str(out, 'utf-8').splitlines())
+		
 	
 	
 	print (ad_group_dict)
