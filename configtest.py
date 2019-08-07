@@ -177,7 +177,7 @@ if __name__ == '__main__':
 	logger.info('Очитска zimbra от удаленных каталогов')
 	for address_for_del in addres_list_for_del:
 		logger.info('Удаляется список рассылки: %s ', address_for_del)
-		proc = subprocess.Popen([conf.zmprov, 'ddl', address_for_del], stdout=subprocess.PIPE, shell=True)
+		proc = subprocess.Popen([conf.zmprov, 'ddl', address_for_del], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 		stdout = proc.communicate()[0]
 		
 		print (stdout)
