@@ -157,7 +157,7 @@ if __name__ == '__main__':
 	# список групп рассылки из AD
 	ad_address_list = []
 	for entries in connection.entries:
-		ad_address_list.append(entries.mail)
+		ad_address_list.append(entries.mail.values[0])
 	
 	# вызываем внешнюю комманду для получения списков рассылки zimbra
 	out = check_output([conf.zmprov, 'gadl'])
@@ -167,11 +167,13 @@ if __name__ == '__main__':
 	
 	
 	
-	
+	# списки которые в ad более не присутствуют. Удалить из zimbra
 	addres_list_for_del = list(set(zimbra_address_list) - set(ad_address_list))
+	# список который в zimbra не существует. Требуется добавить. 
+	addres_list_for_add = list(set(ad_address_list) - set(zimbra_address_list))
 	
 	print (addres_list_for_del)
-	
+	print (addres_list_for_add)
 	
 	
 	
