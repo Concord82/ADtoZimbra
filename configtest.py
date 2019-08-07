@@ -187,8 +187,7 @@ if __name__ == '__main__':
 	ad_group_dict = get_ad_grouplist()
 	# список групп рассылки из AD
 	ad_address_list = [k for k in ad_group_dict.keys()]
-	for entries in connection.entries:
-		ad_address_list.append(entries.mail.values[0])
+	
 	
 	# вызываем внешнюю комманду для получения списков рассылки zimbra
 	out = check_output([conf.zmprov, 'gadl'])
