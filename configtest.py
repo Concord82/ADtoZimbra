@@ -1,9 +1,10 @@
 #!/usb/bin/python
 ## -*- coding: utf-8 -*-
-
 import os, sys
 import logging, logging.config
 import configparser
+from  ldap3 import Server, Connection, NTLM, SUBTREE
+
 
 try:
     import configparser
@@ -21,13 +22,14 @@ class Config:
 	
 	def __init__(self):
 		config_file = self.file_path('conf')
+		print (config_file)
 		config = configparser.ConfigParser()
 		if not os.path.exists(config_file):
 			if not os.path.exists(os.path.splitext(config_file)[0]+'.tmp'):
 				self.createConfig(config_file)
-				print 'Ошибка! Не найден файл конфигурации.'
-				print 'в рабочем каталоге создан шаблон файла конфигурации'
-				print 'внесите в него параметры для вашей системы и замените его расширение на расширение conf'
+				print ('Ошибка! Не найден файл конфигурации.')
+				print ('в рабочем каталоге создан шаблон файла конфигурации')
+				print ('внесите в него параметры для вашей системы и замените его расширение на расширение conf')
 			sys.exit(1)
 			
 		config = configparser.ConfigParser()
@@ -97,16 +99,20 @@ def main():
     logger = logging.getLogger("exampleApp")
     return logger
     
-def test_log():
-    logger.info("Program started")
-    logger.info("Done!")
-
 
 if __name__ == '__main__':
 	conf = Config()
 	logger = main()
-	print conf.ad_user
-	logger.info('asdasdasdasdad')
-	test_log()
+	server = Server(conf.ad_server, conf.ad_port, conf.ad_tls)
+	
+	connection = Connection(server, user=conf.ad_user, password=conf.ad_password, authentication=NTLM, auto_bind=True)
+	
+	connection.search(search_base='OU=internet,OU=Resources_and_Services,DC=cons,DC=tsk,DC=ru', 
+	search_filter='(objectClass=group)', search_scope=SUBTREE, attributes = ['cn', 'distinguishedName', 'mail','member'])
+
+	for entries in connection.entries:
+		print (entries.cn)
+
+	
 	
 	
