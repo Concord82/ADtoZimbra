@@ -63,15 +63,11 @@ def get_ad_grouplist():
 
 
 if __name__ == '__main__':
+	# создаем логи
 	logger = logger_setup.setup_custom_logger(__name__)
-
-	logger.info('запуск')
-	
-	logger.info('запуск')
-	
+	# загружаем переменные из файла конфигурации
 	conf = Config()
 	
-
 	ad_group_dict = get_ad_grouplist()
 	# список групп рассылки из AD
 	ad_address_list = [k for k in ad_group_dict.keys()]
@@ -84,6 +80,8 @@ if __name__ == '__main__':
 	
 	# список групп рассылки из zimbra
 	zimbra_address_list = zm_exec.getAlldistributionLists()
+	
+	
 	print (zimbra_address_list)
 	# списки которые в ad более не присутствуют. Удалить из zimbra
 	addres_list_for_del = list(set(zimbra_address_list) - set(ad_address_list))
@@ -95,15 +93,14 @@ if __name__ == '__main__':
 	logger.info('Очитска zimbra от удаленных каталогов')
 	for address_for_del in addres_list_for_del:
 		logger.info('Удаляется список рассылки: %s ', address_for_del)
-		proc = subprocess.Popen([conf.zmprov, 'ddl', address_for_del], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-		stdout = proc.communicate()[0]
-		if stdout == b'':
+		if zm_exec.deleteDistributionList(address_for_del):
 			logger.info('Выполненно успешно')
 		
 	for ad_addres_item in ad_address_list:
 		if not ad_addres_item in zimbra_address_list:
 			logger.info('Список рассылки %s не найден', ad_addres_item)
 			logger.info('выполняем добавление')
+			
 			
 			#out = check_output([conf.zmprov, 'cdl', ad_addres_item])
 			#print(str(out, 'utf-8').splitlines())

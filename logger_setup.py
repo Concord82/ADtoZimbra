@@ -17,7 +17,6 @@ def setup_custom_logger(name):
 		print ('от имени которого запускается скрипт на возможность записи в указанный каталог ')
 		sys.exit(1)
 
-
 	"""
 	Based on http://docs.python.org/howto/logging.html#configuring-logging
 	"""

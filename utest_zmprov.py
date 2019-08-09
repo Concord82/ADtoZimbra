@@ -52,7 +52,7 @@ class ZimbraClientTest(unittest.TestCase):
 		self.assertFalse(self.zm_exec.createDistributionList('test2@test.cons.tsk.ru'))
 		
 	def test_05_addDistributionListMember(self):
-		'''добавляем членов в список рассылки '''
+		'''добавляем 10 членов в список рассылки '''
 		print("id: " + self.id())
 		user_list = []
 		for i in range(10):
@@ -70,14 +70,13 @@ class ZimbraClientTest(unittest.TestCase):
 				break
 		self.assertTrue(flagg)
 		
-	def test_06_getDistributionListmembership(self):
+	def test_07_getDistributionListmembership(self):
 		'''получаем членов несуществующего списка рассылки '''
 		print("id: " + self.id())
 		self.assertFalse( self.zm_exec.getDistributionListmembership('cons-talks434@zimbra-mailserver.internal.cons.tsk.ru'))
 		
-		
 	def test_08_removeDistributionListMember(self):
-		'''удаляем членов из списка рассылки '''
+		'''удаляем 10 членов из списка рассылки '''
 		print("id: " + self.id())
 		user_list = []
 		for i in range(10):
@@ -120,7 +119,6 @@ class ZimbraClientTest(unittest.TestCase):
 			) 
 		)
 		
-	
 	def test_13_deleteDistributionList(self):
 		''' Удаляем список рассылки'''
 		print("id: " + self.id())
